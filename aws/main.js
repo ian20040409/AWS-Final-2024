@@ -94,53 +94,56 @@
             });
         },
 
-       handleEditComment: function(e) {
-    e.preventDefault();
-    const $commentDiv = $(this).closest('.comment');
-    const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
-    const currentContent = $commentDiv.find('.comment-content').text();
-    const newContent = prompt('請輸入新的留言內容：', currentContent);
+        handleEditComment: function(e) {
+            e.preventDefault();
+            const $commentDiv = $(this).closest('.comment');
+            const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
+            const username = App.getCookie('username'); // 從 Cookie 獲取 username
+            const currentContent = $commentDiv.find('.comment-content').text();
+            const newContent = prompt('請輸入新的留言內容：', currentContent);
 
-    if (!commentId || newContent === null) return; // 確保 commentId 與新內容存在
+            if (!commentId || !username || newContent === null) {
+                return; // 若缺少必要參數，則中止
+            }
 
-    const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
-    const url = window.location.href; // 當前網頁的 URL
-
-    $.ajax({
-        url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
-        method: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            user_id: userId,
-            comment: newContent,
-            url: url
-        }),
-        success: function() {
-            alert('留言已更新');
-            App.getComments();
+            $.ajax({
+                url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    username: username,
+                    comment: newContent
+                }),
+                success: function() {
+                    alert('留言已更新');
+                    App.getComments();
+                },
+                error: function(xhr) {
+                    console.error('留言更新失敗:', xhr.responseText);
+                    alert(xhr.responseJSON ? xhr.responseJSON.message : '留言更新失敗');
+                }
+            });
         },
-        error: function(xhr) {
-            console.error('留言更新失敗:', xhr.responseText);
-            alert(xhr.responseJSON ? xhr.responseJSON.message : '留言更新失敗');
-        }
-    });
-}
-        
+
         handleDeleteComment: function(e) {
             e.preventDefault();
             const $commentDiv = $(this).closest('.comment');
             const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
-        
-            if (!commentId || !confirm('確定要刪除此留言嗎？')) return;
-        
-            const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
-            const url = window.location.href;
-        
+            const username = App.getCookie('username'); // 從 Cookie 獲取 username
+
+            if (!commentId || !username) {
+                return; // 若缺少必要參數，則中止
+            }
+
+            if (!confirm('確定要刪除此留言嗎？')) {
+                return; // 用戶取消刪除操作
+            }
+
             $.ajax({
                 url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
                 method: 'DELETE',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: userId, url: url }),
+                data: JSON.stringify({ username: username }),
                 success: function() {
                     alert('留言已刪除');
                     App.getComments();
@@ -151,9 +154,6 @@
                 }
             });
         },
-        
-
-      
 
         getComments: function() {
             const url = window.location.href;
