@@ -94,37 +94,37 @@
             });
         },
 
-        handleEditComment: function(e) {
-            e.preventDefault();
-            const $commentDiv = $(this).closest('.comment');
-            const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
-            const currentContent = $commentDiv.find('.comment-content').text();
-            const newContent = prompt('請輸入新的留言內容：', currentContent);
-        
-            if (!commentId || newContent === null) return; // 確保 commentId 與新內容存在
-        
-            const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
-            const url = window.location.href; // 當前網頁的 URL
-        
-            $.ajax({
-                url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    user_id: userId,
-                    comment: newContent,
-                    url: url
-                }),
-                success: function() {
-                    alert('留言已更新');
-                    App.getComments();
-                },
-                error: function(xhr) {
-                    console.error('留言更新失敗:', xhr.responseText);
-                    alert(xhr.responseJSON ? xhr.responseJSON.message : '留言更新失敗');
-                }
-            });
+       handleEditComment: function(e) {
+    e.preventDefault();
+    const $commentDiv = $(this).closest('.comment');
+    const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
+    const currentContent = $commentDiv.find('.comment-content').text();
+    const newContent = prompt('請輸入新的留言內容：', currentContent);
+
+    if (!commentId || newContent === null) return; // 確保 commentId 與新內容存在
+
+    const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
+    const url = window.location.href; // 當前網頁的 URL
+
+    $.ajax({
+        url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            user_id: userId,
+            comment: newContent,
+            url: url
+        }),
+        success: function() {
+            alert('留言已更新');
+            App.getComments();
+        },
+        error: function(xhr) {
+            console.error('留言更新失敗:', xhr.responseText);
+            alert(xhr.responseJSON ? xhr.responseJSON.message : '留言更新失敗');
         }
+    });
+}
         
         handleDeleteComment: function(e) {
             e.preventDefault();
