@@ -97,22 +97,24 @@
         handleEditComment: function(e) {
             e.preventDefault();
             const $commentDiv = $(this).closest('.comment');
-            const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
-            const username = App.getCookie('username'); // 從 Cookie 獲取 username
+            const commentId = $commentDiv.data('id'); // 取得 comment_id
+            const username = App.getCookie('username'); // 從 Cookie 取得 username
             const currentContent = $commentDiv.find('.comment-content').text();
             const newContent = prompt('請輸入新的留言內容：', currentContent);
-
+        
             if (!commentId || !username || newContent === null) {
-                return; // 若缺少必要參數，則中止
+                alert('缺少必要的參數，請重新操作。');
+                return;
             }
-
+        
             $.ajax({
                 url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    username: username,
-                    comment: newContent
+                    comment_id: commentId, // 必須確保傳 comment_id
+                    username: username,   // 傳 username
+                    comment: newContent   // 傳新留言內容
                 }),
                 success: function() {
                     alert('留言已更新');
