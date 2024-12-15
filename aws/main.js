@@ -10,6 +10,8 @@
             $('#registerForm').submit(this.handleRegister);
             $('#logoutButton').click(this.handleLogout);
             $('#commentForm').submit(this.handleCommentSubmit);
+            $('#comments').on('click', '.edit-comment', this.handleEditComment);
+            $('#comments').on('click', '.delete-comment', this.handleDeleteComment);
         },
 
         handleLogin: function(e) {
@@ -92,6 +94,67 @@
             });
         },
 
+        handleEditComment: function(e) {
+            e.preventDefault();
+            const $commentDiv = $(this).closest('.comment');
+            const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
+            const currentContent = $commentDiv.find('.comment-content').text();
+            const newContent = prompt('請輸入新的留言內容：', currentContent);
+        
+            if (!commentId || newContent === null) return; // 確保 commentId 與新內容存在
+        
+            const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
+            const url = window.location.href; // 當前網頁的 URL
+        
+            $.ajax({
+                url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    user_id: userId,
+                    comment: newContent,
+                    url: url
+                }),
+                success: function() {
+                    alert('留言已更新');
+                    App.getComments();
+                },
+                error: function(xhr) {
+                    console.error('留言更新失敗:', xhr.responseText);
+                    alert(xhr.responseJSON ? xhr.responseJSON.message : '留言更新失敗');
+                }
+            });
+        }
+        
+        handleDeleteComment: function(e) {
+            e.preventDefault();
+            const $commentDiv = $(this).closest('.comment');
+            const commentId = $commentDiv.data('id'); // 從 data-id 中獲取 comment_id
+        
+            if (!commentId || !confirm('確定要刪除此留言嗎？')) return;
+        
+            const userId = App.getCookie('user_id'); // 從 Cookie 獲取 user_id
+            const url = window.location.href;
+        
+            $.ajax({
+                url: `https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments/${commentId}`,
+                method: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_id: userId, url: url }),
+                success: function() {
+                    alert('留言已刪除');
+                    App.getComments();
+                },
+                error: function(xhr) {
+                    console.error('留言刪除失敗:', xhr.responseText);
+                    alert(xhr.responseJSON ? xhr.responseJSON.message : '留言刪除失敗');
+                }
+            });
+        },
+        
+
+      
+
         getComments: function() {
             const url = window.location.href;
 
@@ -104,7 +167,13 @@
                     if (response.comments && Array.isArray(response.comments)) {
                         response.comments.forEach(comment => {
                             $('#comments').append(`
-                                <p><strong>${comment.username}:</strong> ${comment.comment} <em>(${comment.created_at})</em></p>
+                                <div class="comment" data-id="${comment.comment_id}">
+                                    <p><strong>${comment.username}:</strong> <span class="comment-content">${comment.comment}</span> <em>(${comment.created_at})</em></p>
+                                    ${App.getCookie('username') === comment.username ? `
+                                        <button class="edit-comment">編輯</button>
+                                        <button class="delete-comment">刪除</button>
+                                    ` : ''}
+                                </div>
                             `);
                         });
                     } else {
