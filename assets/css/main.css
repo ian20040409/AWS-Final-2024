@@ -1522,18 +1522,18 @@ button,
   -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  background-color: transparent;
+  background-color: #9d6af5;
   border-radius: 0.375em;
   border: 0;
-  box-shadow: inset 0 0 0 2px #0c88da;
-  color: #0175cf !important;
+  box-shadow: inset 0 0 0 2px #9d6af5;
+  color: #ffffff !important;
   cursor: pointer;
   display: inline-block;
   font-family: "Roboto Slab", serif;
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-weight: 700;
   height: 3.5em;
-  letter-spacing: 0.075em;
+  letter-spacing: 0.015em;
   line-height: 3.5em;
   padding: 0 2.25em;
   text-align: center;
@@ -1552,12 +1552,12 @@ button,
   button:hover,
   .button:hover {
 
-    background-color: rgba(106, 106, 246, 0.048); 
+    background-color: rgba(146, 106, 246, 0.272); 
     transition: 0.3s;
-    -moz-transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
   }
   
     input[type="submit"]:active,
@@ -1648,10 +1648,10 @@ button.delete:hover,
 .button.delete:hover {
     background-color: #c0392b; /* 懸停時的深紅色 */
     transition: 0.3s;
-    -moz-transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 button.delete:active,
@@ -1666,7 +1666,9 @@ button.delete:disabled,
 .button.delete:disabled {
     pointer-events: none;
     opacity: 0.25;
+    
 }
+
 
 /* Mini Posts */
 .mini-posts article {
@@ -2382,14 +2384,14 @@ button.delete:disabled,
       }
       #floating-button:hover {
         /* 鼠標懸停時的樣式 */
-        transform: scale(1.1);
+        transform: scale(0.3);
       }
       @keyframes bounce {
         0% {
           transform: translateY(0);
         }
         50% {
-          transform: translateY(-8px);
+          transform: translateY(-4px);
         }
         100% {
           transform: translateY(0);
@@ -4008,11 +4010,11 @@ body::-webkit-scrollbar-track {
     -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    background-color: transparent;
+    background-color: #0c88da;
     border-radius: 0.375em;
     border: 0;
     box-shadow: inset 0 0 0 2px #0c88da;
-    color: #8ab4f8 !important;
+    color: #dde2eb !important;
     cursor: pointer;
     display: inline-block;
     font-family: "Roboto Slab", serif;
@@ -4037,13 +4039,13 @@ body::-webkit-scrollbar-track {
     input[type="button"]:hover,
     button:hover,
     .button:hover {
-  
-      background-color: rgba(106, 106, 246, 0.048); 
+      
+      background-color: rgba(106, 185, 246, 0.525); 
       transition: 0.3s;
-      -moz-transform: scale(1.2);
-      -webkit-transform: scale(1.2);
-      -ms-transform: scale(1.2);
-      transform: scale(1.2);
+      -moz-transform: scale(1.15);
+      -webkit-transform: scale(1.15);
+      -ms-transform: scale(1.15);
+      transform: scale(1.15);
     }
     
       input[type="submit"]:active,
@@ -4132,10 +4134,10 @@ button.delete:hover,
 .button.delete:hover {
     background-color: #c0392b; /* 懸停時的深紅色 */
     transition: 0.3s;
-    -moz-transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    transform: scale(1.2);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 button.delete:active,
