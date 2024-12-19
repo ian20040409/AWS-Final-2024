@@ -18,7 +18,7 @@
             e.preventDefault();
             const username = $('#loginUsername').val();
             const password = $('#loginPassword').val();
-
+        
             $.ajax({
                 url: 'https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/login',
                 method: 'POST',
@@ -27,6 +27,7 @@
                 success: function(response) {
                     alert('登入成功');
                     App.setCookie('username', username, 1); // 儲存用戶名至 Cookie
+                    App.setCookie('user_id', response.user_id, 1); // 儲存 user_id 至 Cookie
                     App.updateUIAfterLogin(username);
                     App.getComments();
                 },
@@ -70,18 +71,24 @@
             e.preventDefault();
             const comment = $('#message').val();
             const username = App.getCookie('username'); // 從 Cookie 獲取用戶名
+            const user_id = App.getCookie('user_id');   // 從 Cookie 獲取 user_id
             const url = window.location.href;
-
-            if (!username) {
+        
+            if (!username || !user_id) {
                 alert('請先登入');
                 return;
             }
-
+        
             $.ajax({
                 url: 'https://duvtzrkm03.execute-api.us-east-1.amazonaws.com/comments',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ username, url, comment }),
+                data: JSON.stringify({ 
+                    user_id: user_id,      // 使用者 ID
+                    username: username,    // 使用者名稱
+                    url: url,              // 網頁 URL
+                    comment: comment       // 留言內容
+                }),
                 success: function() {
                     alert('留言提交成功');
                     $('#message').val('');
@@ -93,7 +100,6 @@
                 }
             });
         },
-
         handleEditComment: function(e) {
             e.preventDefault();
             const $commentDiv = $(this).closest('.comment');
@@ -112,9 +118,9 @@
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    comment_id: commentId, // 必須確保傳 comment_id
-                    username: username,   // 傳 username
-                    comment: newContent   // 傳新留言內容
+                    user_id: App.getCookie('user_id'), // Partition Key
+                    comment_id: commentId,            // Sort Key
+                    comment: newContent               // 新留言內容
                 }),
                 success: function() {
                     alert('留言已更新');
