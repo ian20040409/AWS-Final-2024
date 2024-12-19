@@ -48,11 +48,7 @@ $(document).ready(function () {
             return;
         }
 
-        const username = getCookie("username"); // 不再默認為「匿名使用者」
-        if (!username) {
-            alert("請先登入才能提交留言！");
-            return;
-        }
+        const username = getCookie("username") || "匿名使用者"; // 從 Cookie 獲取使用者名稱，若無則設為匿名
         console.log("提交留言的使用者名稱:", username);
         console.log("提交的留言內容:", comment);
 
@@ -74,7 +70,7 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 console.error("留言提交失敗:", xhr.responseText);
-                alert("留言提交失敗：" + (xhr.responseJSON ? xhr.responseJSON.message : "請重試"));
+                alert("留言提交失敗：" + xhr.responseText);
             }
         });
     });
@@ -118,11 +114,7 @@ $(document).ready(function () {
             return;
         }
 
-        const username = getCookie("username");
-        if (!username) {
-            alert("請先登入才能編輯留言！");
-            return;
-        }
+        const username = getCookie("username") || "匿名使用者";
 
         $.ajax({
             url: `${API_URL}/comments/${commentId}`,
@@ -139,7 +131,7 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 console.error("留言編輯失敗:", xhr.responseText);
-                alert("留言編輯失敗：" + (xhr.responseJSON ? xhr.responseJSON.message : "請重試"));
+                alert("留言編輯失敗：" + xhr.responseText);
             }
         });
     }
@@ -152,18 +144,12 @@ $(document).ready(function () {
     // 刪除留言
     function deleteComment(commentId) {
         if (confirm("您確定要刪除此留言嗎？")) {
-            const username = getCookie("username");
-            if (!username) {
-                alert("請先登入才能刪除留言！");
-                return;
-            }
-
             $.ajax({
                 url: `${API_URL}/comments/${commentId}`,
                 method: "DELETE",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    username: username
+                    username: getCookie("username") || "匿名使用者"
                 }),
                 success: function () {
                     console.log("留言刪除成功");
@@ -172,7 +158,7 @@ $(document).ready(function () {
                 },
                 error: function (xhr) {
                     console.error("留言刪除失敗:", xhr.responseText);
-                    alert("留言刪除失敗：" + (xhr.responseJSON ? xhr.responseJSON.message : "請重試"));
+                    alert("留言刪除失敗：" + xhr.responseText);
                 }
             });
         }
@@ -180,9 +166,6 @@ $(document).ready(function () {
 
     // 載入留言
     function loadComments() {
-        const currentUser = getCookie("username"); // 獲取當前用戶名稱
-        const isLoggedIn = !!currentUser; // 判斷用戶是否登入
-
         $.ajax({
             url: `${API_URL}/comments?url=${encodeURIComponent(currentUrl)}`,
             method: "GET",
@@ -195,15 +178,18 @@ $(document).ready(function () {
                 if (comments && comments.length > 0) {
                     comments.forEach(c => {
                         console.log("顯示留言:", c);
-                        const commentUser = c.username || "匿名使用者";
+                        const username = c.username || "匿名使用者";
                         const comment = c.comment || "";
                         const created_at = c.created_at || "";
                         const comment_id = c.comment_id || "";
 
-                        // 判斷是否為當前用戶的留言
-                        const isOwner = isLoggedIn && (commentUser === currentUser);
+                        // 獲取當前用戶名稱
+                        const currentUser = getCookie("username") || "匿名使用者";
 
-                        // 構建編輯和刪除按鈕（僅對擁有者顯示）
+                        // 判斷是否為當前用戶的留言
+                        const isOwner = (username === currentUser);
+
+                        // 構建編輯和刪除按鈕
                         const editButton = isOwner ? `<button class="edit-btn" data-id="${comment_id}">編輯</button>` : "";
                         const deleteButton = isOwner ? `<button class="delete-btn" data-id="${comment_id}">刪除</button>` : "";
 
@@ -213,7 +199,7 @@ $(document).ready(function () {
                                     <img src="assets/user.png" alt="User Avatar">
                                 </div>
                                 <div class="comment-content">
-                                    <h3 class="username">${escapeHtml(commentUser)}</h3>
+                                    <h3 class="username">${escapeHtml(username)}</h3>
                                     <p class="message">${escapeHtml(comment)}</p>
                                     <small class="text-muted">時間: ${formatDate(created_at)}</small>
                                     <div class="comment-actions">
