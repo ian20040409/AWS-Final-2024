@@ -48,8 +48,11 @@ $(document).ready(function () {
             return;
         }
 
-        // 如果用戶已登入，使用用戶名；否則，設為「匿名使用者」
-        const username = getCookie("username") || "匿名使用者";
+        const username = getCookie("username"); // 不再默認為「匿名使用者」
+        if (!username) {
+            alert("請先登入才能提交留言！");
+            return;
+        }
         console.log("提交留言的使用者名稱:", username);
         console.log("提交的留言內容:", comment);
 
