@@ -30,7 +30,9 @@
 							<!-- Content -->
 								<section>
 									<div id="main">
+										
 										<h2>📄 網站意見回饋</h2>
+										
 										<form id="feedbackForm">
 											<label for="name">姓名:</label>
 											<input type="text" id="name" name="name" placeholder="輸入姓名" required>
@@ -43,11 +45,13 @@
 											<label for="message">意見內容:</label>
 											<textarea id="message" name="message" placeholder="輸入您的意見" required></textarea>
 											<br><br>
-								
+											<div id="responseMessage" style="margin-top: 5px; color: green; font-size: 18px;"></div>
 											<button type="submit">提交</button>
+											
+
 										</form>
 								
-										<div id="responseMessage" style="margin-top: 20px; color: green;"></div>
+										
 									</div>
 
 								</section>
@@ -147,7 +151,7 @@
 					});
 		
 					if (response.ok) {
-						document.getElementById('responseMessage').textContent = "提交成功！感謝您的意見回饋！";
+						document.getElementById('responseMessage').textContent = "🎉 提交成功！感謝您的意見回饋！😘";
 						document.getElementById('feedbackForm').reset(); // 清空表單
 					} else {
 						const errorData = await response.json();
