@@ -49,7 +49,7 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify({ username, password }),
             success: function (response) {
-                alert("登入成功！");
+                alert("🎉登入成功！");
                 setCookie("username", username, 1);
                 $("#welcome-username").text(username);
                 $("#login-section").hide();

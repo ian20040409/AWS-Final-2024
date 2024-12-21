@@ -7,7 +7,7 @@ $(document).ready(function () {
         if (username) {
             // 如果已登入，顯示歡迎訊息和登出按鈕
             $("#status-content").html(`
-                <p>歡迎，<strong>${username}</strong>！</p>
+                <p>👋 歡迎，<strong>${username}</strong>！</p>
                 <button id="logout-btn" class="button">登出</button>
             `);
         } else {
