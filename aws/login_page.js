@@ -15,27 +15,35 @@ $(document).ready(function () {
         $("#login-section").show();
     });
 
-    // 註冊按鈕事件
-    $("#register-btn").click(function () {
-        const username = $("#register-username").val();
-        const email = $("#register-email").val();
-        const password = $("#register-password").val();
+    // 註冊表單提交事件
+    $("#register-form").on("submit", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (this.checkValidity()) {
+            // 表單有效，執行註冊
+            const username = $("#register-username").val();
+            const email = $("#register-email").val();
+            const password = $("#register-password").val();
 
-        $.ajax({
-            url: `${API_URL}/register`,
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ username, email, password }),
-            success: function (response) {
-                alert("註冊成功，請登入！");
-                $("#register-section").hide();
-                $("#login-section").show();
-            },
-            error: function (xhr) {
-                console.error("註冊失敗:", xhr.responseText);
-                alert("註冊失敗：" + (xhr.responseJSON ? xhr.responseJSON.message : "請重試"));
-            }
-        });
+            $.ajax({
+                url: `${API_URL}/register`,
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ username, email, password }),
+                success: function (response) {
+                    alert("註冊成功，請登入！");
+                    $("#register-section").hide();
+                    $("#login-section").show();
+                },
+                error: function (xhr) {
+                    console.error("註冊失敗:", xhr.responseText);
+                    alert("註冊失敗：" + (xhr.responseJSON ? xhr.responseJSON.message : "請重試"));
+                }
+            });
+        } else {
+            $(this).addClass('was-validated');
+        }
     });
 
     // 登入按鈕事件

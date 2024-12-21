@@ -34,25 +34,36 @@
 
             <!-- 註冊區塊 -->
             <div id="register-section" style="display:none;">
-                <div class="mb-3">
-                    <label for="register-username" class="form-label">用戶名</label>
-                    <input type="text" class="form-control" id="register-username" placeholder="請輸入用戶名">
-                </div>
-                <div class="mb-3">
-                    <label for="register-email" class="form-label">電子郵件</label>
-                    <input type="email" class="form-control" id="register-email" placeholder="請輸入電子郵件">
-                </div>
-                <div class="mb-3">
-                    <label for="register-password" class="form-label">密碼</label>
-                    <input type="password" class="form-control" id="register-password" placeholder="請輸入密碼">
-                </div>
-                
-                <button id="register-btn" class="btn btn-success w-100">註冊</button>
-                <button id="back-to-login" class="btn btn-secondary w-100 mt-2">返回登入</button>
-                <!-- 回到首頁按鈕 -->
-                <div class="mt-3 text-center">
-                    <a href="index.html" class="btn btn-secondary w-100">🏠 回到首頁</a>
-                </div>
+                <form id="register-form" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="register-username" class="form-label">用戶名</label>
+                        <input type="text" class="form-control" id="register-username" placeholder="請輸入用戶名" required minlength="6">
+                        <div class="invalid-feedback">
+                            用戶名至少需要6個字元。
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">電子郵件</label>
+                        <input type="email" class="form-control" id="register-email" placeholder="請輸入電子郵件" required>
+                        <div class="invalid-feedback">
+                            請輸入有效的電子郵件。
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">密碼</label>
+                        <input type="password" class="form-control" id="register-password" placeholder="請輸入密碼" required minlength="6" pattern="(?=.*[A-Za-z]).{6,}">
+                        <div class="invalid-feedback">
+                            密碼至少需要6個字元，並包含至少一個英文字母。
+                        </div>
+                    </div>
+                    
+                    <button type="submit" id="register-btn" class="btn btn-success w-100">註冊</button>
+                    <button type="button" id="back-to-login" class="btn btn-secondary w-100 mt-2">返回登入</button>
+                    <!-- 回到首頁按鈕 -->
+                    <div class="mt-3 text-center">
+                        <a href="index.html" class="btn btn-secondary w-100">🏠 回到首頁</a>
+                    </div>
+                </form>
             </div>
 
             <!-- 已登入區塊 -->
