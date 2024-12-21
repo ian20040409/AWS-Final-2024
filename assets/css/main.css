@@ -1722,7 +1722,33 @@ button[type="submit"]::before {
   font-weight: 900; /* 根據圖示類型調整字重 */
 }
 
+.save-btn {
+  background-color: #27ae60; /* 綠色系 */
+  color: #ffffff; /* 文字顏色 */
+  box-shadow: none;
+}
 
+.save-btn::before {
+  font-family: "Font Awesome 5 Free"; /* 確保已載入 Font Awesome */
+  content: "\f00c"; /* 保存圖示的 Unicode */
+  margin-right: 8px;
+  font-weight: 900; /* 根據圖示類型調整字重 */
+}
+
+.cancel-btn {
+  background-color: #5050fb; /* 紅色系 */
+  color: #ffffff; /* 文字顏色 */
+  border: none;
+  box-shadow: none;
+  
+}
+
+.cancel-btn::before {
+  font-family: "Font Awesome 5 Free"; /* 確保已載入 Font Awesome */
+  content: "\f00d"; /* 取消圖示的 Unicode */
+  margin-right: 8px;
+  font-weight: 900; /* 根據圖示類型調整字重 */
+}
 
 /* Mini Posts */
 .mini-posts article {
@@ -4257,7 +4283,29 @@ button[type="submit"]::before {
   font-weight: 900; /* 根據圖示類型調整字重 */
 }
 
+.save-btn {
+  background-color: #119d1c; /* 綠色系 */
+  color: #ffffff; /* 文字顏色 */
+  box-shadow: none;
+}
 
+.save-btn::before {
+  font-family: "Font Awesome 5 Free"; /* 確保已載入 Font Awesome */
+  content: "\f00c"; /* 保存圖示的 Unicode */
+  margin-right: 8px;
+  font-weight: 900; /* 根據圖示類型調整字重 */
+}
+.cancel-btn {
+  background-color: #0396ec; /* 紅色系 */
+  color: #ffffff; /* 文字顏色 */
+  
+}
+.cancel-btn::before {
+  font-family: "Font Awesome 5 Free"; /* 確保已載入 Font Awesome */
+  content: "\f00d"; /* 取消圖示的 Unicode */
+  margin-right: 8px;
+  font-weight: 900; /* 根據圖示類型調整字重 */
+}
   
   
   /* Mini Posts */
